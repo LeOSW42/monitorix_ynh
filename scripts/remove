@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Source YunoHost helpers
+source /usr/share/yunohost/helpers
+
+# Retrieve app settings
+domain=$(ynh_app_setting_get "monitorix" domain)
+
+# Remove sources
+sudo apt-get remove -y -qq rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl libconfig-general-perl libio-socket-ssl-perl monitorix
+
+# Remove nginx configuration file
+sudo rm -f /etc/nginx/conf.d/$domain.d/monitorix.conf
+
+# Reload nginx service
+sudo service nginx reload

@@ -1,0 +1,45 @@
+{
+    "name": "Monitorix",
+    "id": "monitorix",
+    "packaging_format": 1,
+    "description": {
+        "en": "Open source lightweight monitoring system.",
+        "fr": "Système léger et opensource de monitoring système."
+    },
+    "url": "http://www.monitorix.org",
+    "license": "free",
+    "maintainer": {
+        "name": "Léo Serre",
+        "email": "leo@lstronic.com",
+        "url": "http://lstronic.com"
+    },
+    "requirements": {
+        "yunohost": ">> 2.4.0"
+    },
+    "multi_instance": false,
+    "services": [
+    ],
+    "arguments": {
+        "install" : [
+            {
+                "name": "domain",
+		"type": "domain",
+                "ask": {
+                    "en": "Choose a domain name for monitorix",
+                    "fr": "Choisissez un nom de domaine pour monitorix"
+                },
+                "example": "example.com"
+            },
+            {
+                "name": "path",
+		"type": "path",
+                "ask": {
+                    "en": "Choose a path for monitorix",
+                    "fr": "Choisissez un chemin pour monitorix"
+                },
+                "example": "/example",
+                "default": "/monitorix"
+            }
+        ]
+    }
+}

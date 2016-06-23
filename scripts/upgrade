@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Exit on command errors and treat unset variables as an error
+set -eu
+
+# Source YunoHost helpers
+source /usr/share/yunohost/helpers
+
+# Retrieve app settings
+domain=$(ynh_app_setting_get "monitorix" domain)
+path=$(ynh_app_setting_get "monitorix" path)
+is_public=1 #$(ynh_app_setting_get "monitorix" is_public)
+
+# Remove trailing "/" for next commands
+path=${path%/}
+
+# Upgrade packages
+sudo apt-get install rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl libconfig-general-perl libio-socket-ssl-perl -y -qq
+wget http://www.monitorix.org/monitorix_3.8.1-izzy1_all.deb > /dev/null 2>&1
+sudo dpkg -i monitorix*.deb
+sudo apt-get -f install -y -qq
+
+# Modify Nginx configuration file and copy it to Nginx conf directory
+nginx_conf=../conf/nginx.conf
+sed -i "s@YNH_WWW_PATH@$path@g" $nginx_conf
+sudo cp $nginx_conf /etc/nginx/conf.d/$domain.d/monitorix.conf
+
+# If app is public, add url to SSOWat conf as skipped_uris
+if [[ $is_public -eq 1 ]]; then
+  # See install script
+  ynh_app_setting_set "monitorix" unprotected_uris "/"
+fi
+
+# Reload nginx service
+sudo service monitorix restart
+sudo service nginx reload

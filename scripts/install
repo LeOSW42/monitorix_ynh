@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Exit on command errors and treat unset variables as an error
+set -eu
+
+# Retrieve arguments
+domain=$YNH_APP_ARG_DOMAIN
+path=$YNH_APP_ARG_PATH
+is_public=1 #$YNH_APP_ARG_IS_PUBLIC
+
+# Source YunoHost helpers
+source /usr/share/yunohost/helpers
+
+# Check domain/path availability
+sudo yunohost app checkurl "${domain}${path}" -a "monitorix" \
+    || ynh_die "Path not available: ${domain}${path}"
+
+# Install application from package
+sudo apt-get install rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl libconfig-general-perl libio-socket-ssl-perl -y -qq
+wget http://www.monitorix.org/monitorix_3.8.1-izzy1_all.deb > /dev/null 2>&1
+sudo dpkg -i monitorix*.deb
+sudo apt-get -f install -y -qq
+
+# Modify Nginx configuration file and copy it to Nginx conf directory
+nginx_conf=../conf/nginx.conf
+sed -i "s@YNH_WWW_PATH@$path@g" $nginx_conf
+sudo cp $nginx_conf /etc/nginx/conf.d/$domain.d/monitorix.conf
+
+# If app is public, add url to SSOWat conf as skipped_uris
+if [[ $is_public -eq 1 ]]; then
+  # unprotected_uris allows SSO credentials to be passed anyway.
+  ynh_app_setting_set "monitorix" unprotected_uris "/"
+fi
+
+# Reload services
+sudo service monitorix restart
+sudo service nginx reload

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Exit on command errors and treat unset variables as an error
+set -eu
+
+# Source YunoHost helpers
+source /usr/share/yunohost/helpers
+
+# Copy NGINX configuration
+domain=$(ynh_app_setting_get "monitorix" domain)
+ynh_backup "/etc/nginx/conf.d/${domain}.d/monitorix.conf" "nginx.conf"
