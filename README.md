@@ -15,3 +15,7 @@ Monitorix demo is available here : http://www.fibranet.cat/monitorix/
  * Add mysql monitoring
  * Add mail monitoring
  * Remove /monitorix-cgi URL
+
+## Issues
+
+Works only when path is /monitorix (due to a use of /monitorix-cgi)
