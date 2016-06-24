@@ -16,7 +16,7 @@ sudo yunohost app checkurl "${domain}${path}" -a "monitorix" \
     || ynh_die "Path not available: ${domain}${path}"
 
 # Install application from package
-sudo apt-get install rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl libconfig-general-perl libio-socket-ssl-perl -y -qq
+#sudo apt-get install rrdtool perl libwww-perl libmailtools-perl libmime-lite-perl librrds-perl libdbi-perl libxml-simple-perl libhttp-server-simple-perl libconfig-general-perl libio-socket-ssl-perl -y -qq
 wget http://www.monitorix.org/monitorix_3.8.1-izzy1_all.deb > /dev/null 2>&1
 sudo dpkg -i monitorix*.deb
 sudo apt-get -f install -y -qq
