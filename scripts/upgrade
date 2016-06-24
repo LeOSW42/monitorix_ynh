@@ -20,6 +20,10 @@ wget http://www.monitorix.org/monitorix_3.8.1-izzy1_all.deb > /dev/null 2>&1
 sudo dpkg -i monitorix*.deb
 sudo apt-get -f install -y -qq
 
+# Modify Monitorix configuration file and copy it to Monitorix conf directory
+monitorix_conf=../conf/monitorix.conf
+sudo cp $monitorix_conf /etc/monitorix/monitorix.conf
+
 # Modify Nginx configuration file and copy it to Nginx conf directory
 nginx_conf=../conf/nginx.conf
 sed -i "s@YNH_WWW_PATH@$path@g" $nginx_conf

@@ -18,7 +18,10 @@ sudo yunohost app checkurl "${domain}${path}" -a "monitorix" \
     || ynh_die "Path not available: ${domain}${path}"
 
 # Restore NGINX configuration
-sudo cp -a ./nginx.conf "/etc/nginx/conf.d/${domain}.d/${app}.conf"
+sudo cp -a ./nginx.conf "/etc/nginx/conf.d/${domain}.d/monitorix.conf"
+
+# Restore Monitorix configuration
+sudo cp -a ./monitorix.conf "/etc/monitorix/monitorix.conf"
 
 # Restart webserver
 sudo service monitorix restart

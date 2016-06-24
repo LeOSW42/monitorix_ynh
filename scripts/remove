@@ -9,6 +9,9 @@ domain=$(ynh_app_setting_get "monitorix" domain)
 # Remove sources
 sudo apt-get remove -y -qq monitorix
 
+# Remove Monitorix configuration file
+sudo rm -f /etc/monitorix/monitorix.conf
+
 # Remove nginx configuration file
 sudo rm -f /etc/nginx/conf.d/$domain.d/monitorix.conf
 

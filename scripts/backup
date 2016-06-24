@@ -9,3 +9,5 @@ source /usr/share/yunohost/helpers
 # Copy NGINX configuration
 domain=$(ynh_app_setting_get "monitorix" domain)
 ynh_backup "/etc/nginx/conf.d/${domain}.d/monitorix.conf" "nginx.conf"
+# Copy Monitorix configuration
+ynh_backup "/etc/monitorix/monitorix.conf" "monitorix.conf"
