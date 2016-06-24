@@ -9,7 +9,7 @@ source /usr/share/yunohost/helpers
 # Retrieve app settings
 domain=$(ynh_app_setting_get "monitorix" domain)
 path=$(ynh_app_setting_get "monitorix" path)
-is_public=1 #$(ynh_app_setting_get "monitorix" is_public)
+is_public=$(ynh_app_setting_get "monitorix" is_public)
 
 # Remove trailing "/" for next commands
 path=${path%/}
@@ -32,5 +32,5 @@ if [[ $is_public -eq 1 ]]; then
 fi
 
 # Reload nginx service
-sudo service monitorix restart
+sudo service monitorix force-reload
 sudo service nginx reload
